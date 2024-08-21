@@ -35,7 +35,7 @@
     "build:docker": "pnpm install && pnpm --filter \"azimutt-backend\" run setup && pnpm --filter \"@azimutt/*\" run build:docker && pnpm --filter \"azimutt-editor\" run build:docker"
   },
   "engines": {
-    "pnpm": "9.5.0"
+    "pnpm": "^9.5.0"
   },
   "packageManager": "pnpm@9.5.0+sha256.dbdf5961c32909fb030595a9daa1dae720162e658609a8f92f2fa99835510ca5"
 }

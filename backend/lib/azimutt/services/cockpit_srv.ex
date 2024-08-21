@@ -35,7 +35,6 @@ defmodule Azimutt.Services.CockpitSrv do
     |> Result.fold(
       fn _ ->
         unreachable = Azimutt.config(:cockpit_unreachable) || 0
-
         if unreachable > 3 do
           set_error_message("Unable to reach licence server, please make sure to allow access or #{contact_us()}.")
         else

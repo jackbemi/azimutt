@@ -5,7 +5,7 @@ defmodule Azimutt.MixProject do
     [
       app: :azimutt,
       version: "2.0.#{DateTime.to_unix(DateTime.utc_now())}",
-      elixir: "~> 1.13",
+      elixir: "~> 1.17.2",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers() ++ [:phoenix_swagger],
       start_permanent: Mix.env() == :prod,

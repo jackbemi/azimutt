@@ -11,11 +11,11 @@
 #   - https://hub.docker.com/_/debian?tab=tags&page=1&name=bullseye-20210902-slim - for the release image
 #   - https://pkgs.org/ - resource for finding needed packages
 #   - Ex: hexpm/elixir:1.12.0-erlang-24.0.1-debian-bullseye-20210902-slim
-#
+#1.16.3-erlang-26.2.5.1-debian-bookworm-20240612-slim
 
-ARG ELIXIR_VERSION=1.14.3
-ARG OTP_VERSION=25.2.2
-ARG DEBIAN_VERSION=bullseye-20230109-slim
+ARG ELIXIR_VERSION=1.16.3
+ARG OTP_VERSION=26.2.5.1
+ARG DEBIAN_VERSION=bookworm-20240612-slim
 
 ARG S3_KEY_ID
 ARG S3_HOST
@@ -32,13 +32,19 @@ ARG DATABASE_URL
 ARG BUILDER_IMAGE="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEBIAN_VERSION}"
 ARG RUNNER_IMAGE="debian:${DEBIAN_VERSION}"
 
-FROM --platform=linux/amd64 ${BUILDER_IMAGE} as builder
+FROM --platform=${BUILDPLATFORM} ${BUILDER_IMAGE} AS builder
 
+RUN env
 
 # install build dependencies
-RUN apt-get update -y && apt-get install -y build-essential git nodejs npm curl wget && apt-get clean && rm -f /var/lib/apt/lists/*_*
-RUN curl -fsSL https://deb.nodesource.com/setup_19.x | bash - && apt-get install -y nodejs
-RUN npm install -g npm@9.8.1
+RUN apt-get update -y && apt-get install -y build-essential git curl wget && apt-get clean && rm -f /var/lib/apt/lists/*_*
+
+# install Node
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g npm@9.8.1
+
+# install Elm
 RUN wget -O - 'https://github.com/elm/compiler/releases/download/0.19.1/binary-for-linux-64-bit.gz' | gunzip -c >/usr/local/bin/elm
 
 # make the elm compiler executable
@@ -53,6 +59,7 @@ RUN mix local.hex --force && \
 
 # set build ENV
 ENV MIX_ENV="prod"
+ENV ERL_FLAGS="+JPperf true +JMsingle true"
 
 # install mix dependencies
 COPY backend/mix.exs backend/mix.lock ./
@@ -99,7 +106,7 @@ RUN mix release
 
 # start a new build stage so that the final image will only contain
 # the compiled release and other runtime necessities
-FROM --platform=linux/amd64 ${RUNNER_IMAGE}
+FROM --platform=${BUILDPLATFORM} ${RUNNER_IMAGE}
 
 RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses5 locales && apt-get clean && rm -f /var/lib/apt/lists/*_*
 

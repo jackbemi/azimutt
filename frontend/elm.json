@@ -5,7 +5,7 @@
         ".elm-spa/defaults",
         ".elm-spa/generated"
     ],
-    "elm-version": "0.19.1",
+    "elm-version": "0.19.1-4",
     "dependencies": {
         "direct": {
             "NoRedInk/elm-simple-fuzzy": "1.0.3",

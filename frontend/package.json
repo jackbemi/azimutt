@@ -69,7 +69,7 @@
     "@types/node": "^22.1.0",
     "concurrently": "^8.2.2",
     "elm-book": "^1.0.1",
-    "elm-coverage": "^0.4.1",
+    "elm-coverage": "^0.3",
     "elm-format": "^0.8.7",
     "elm-go": "^5.0.20",
     "elm-json": "^0.2.13",
