@@ -13,7 +13,7 @@
 #   - Ex: hexpm/elixir:1.12.0-erlang-24.0.1-debian-bullseye-20210902-slim
 #1.16.3-erlang-26.2.5.1-debian-bookworm-20240612-slim
 
-ARG ELIXIR_VERSION=1.16.3
+ARG ELIXIR_VERSION=1.17.2
 ARG OTP_VERSION=26.2.5.1
 ARG DEBIAN_VERSION=bookworm-20240612-slim
 
