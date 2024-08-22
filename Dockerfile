@@ -142,4 +142,14 @@ COPY --from=builder --chown=nobody:root /app/priv/static/blog ./bin/priv/static/
 
 USER nobody
 
+# Copy the entrypoint script
+COPY dev-db-init.sh /app/dev-db-init.sh
+
+# Make it executable
+RUN chmod +x /app/dev-db-init.sh
+
+# Use the entrypoint script as the entrypoint for the container
+ENTRYPOINT ["/app/dev-db-init.sh"]
+
+# CMD to start the application
 CMD ["sh", "-c", "/app/bin/migrate && /app/bin/server"]
