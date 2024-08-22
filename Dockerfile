@@ -114,6 +114,10 @@ FROM --platform=${BUILDPLATFORM} ${RUNNER_IMAGE}
 
 RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses5 locales postgresql-client && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
+RUN if [ "$MIX_ENV" = "dev" ]; then \
+    apt-get update -y && apt-get install -y elixir; \
+fi
+
 # Set the locale
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
 
@@ -133,6 +137,7 @@ ENV STRIPE_WEBHOOK_SIGNING_SECRET=${STRIPE_WEBHOOK_SIGNING_SECRET}
 ENV DATABASE_URL=${DATABASE_URL}
 # ENV MIX_ENV="prod"
 ENV PHX_SERVER="true"
+
 
 WORKDIR "/app"
 RUN chown nobody /app

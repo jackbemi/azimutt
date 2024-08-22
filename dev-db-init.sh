@@ -7,12 +7,15 @@ do
   sleep 2
 done
 
-# Only run the following commands if MIX_ENV is set to "dev"
-if [ "$MIX_ENV" = "dev" ]; then
-  echo "Running in development mode: Setting up the database"
-  mix ecto.create
-  mix ecto.migrate
+# Check if the database exists
+DB_EXISTS=$(PGPASSWORD=$PGPASSWORD psql -U $PGUSER -h $PGHOST -p $PGPORT -d $PGDATABASE -c '\dt' > /dev/null 2>&1; echo $?)
+
+if [ $DB_EXISTS -ne 0 ]; then
+  echo "Database does not exist. Running mix ecto.create and mix ecto.migrate..."
+  mix ecto.create && mix ecto.migrate
+else
+  echo "Database already exists. Skipping mix ecto.create and mix ecto.migrate."
 fi
 
-# Start the Phoenix server
+# Optionally run the server or other commands
 exec "$@"
