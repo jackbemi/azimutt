@@ -59,7 +59,8 @@ RUN mix local.hex --force && \
     mix local.rebar --force
 
 # set build ENV
-# ENV MIX_ENV="prod"
+ARG MIX_ENV
+ENV MIX_ENV=${MIX_ENV}
 ENV ERL_FLAGS="+JPperf true +JMsingle true"
 
 # install mix dependencies
