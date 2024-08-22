@@ -129,4 +129,3 @@ ENTRYPOINT ["/app/dev-db-init.sh"]
 
 # ====== Default Command to Start Application ======
 CMD ["sh", "-c", "/app/bin/migrate && /app/bin/server"]
-q
