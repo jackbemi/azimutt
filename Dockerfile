@@ -61,6 +61,8 @@ RUN mix local.hex --force && \
 # set build ENV
 ARG MIX_ENV
 ENV MIX_ENV=${MIX_ENV}
+RUN echo "MIX_ENV: $MIX_ENV"
+
 ENV ERL_FLAGS="+JPperf true +JMsingle true"
 
 # install mix dependencies
