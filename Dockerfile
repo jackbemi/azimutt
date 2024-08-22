@@ -151,7 +151,7 @@ USER nobody
 COPY dev-db-init.sh /app/dev-db-init.sh
 
 # Make it executable
-RUN chmod +x /app/dev-db-init.sh
+# RUN chmod +x /app/dev-db-init.sh
 
 # Use the entrypoint script as the entrypoint for the container
 ENTRYPOINT ["/app/dev-db-init.sh"]
