@@ -59,7 +59,7 @@ RUN mix local.hex --force && \
     mix local.rebar --force
 
 # set build ENV
-ARG MIX_ENV
+ARG MIX_ENV=prod
 ENV MIX_ENV=${MIX_ENV}
 RUN echo "MIX_ENV: $MIX_ENV"
 
@@ -137,7 +137,9 @@ ENV PHX_SERVER="true"
 WORKDIR "/app"
 RUN chown nobody /app
 
-
+ARG MIX_ENV=prod
+ENV MIX_ENV=${MIX_ENV}
+RUN echo "MIX_ENV: $MIX_ENV"
 # Only copy the final release from the build stage
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/azimutt ./
 RUN mkdir -p ./app/bin/priv/static/
